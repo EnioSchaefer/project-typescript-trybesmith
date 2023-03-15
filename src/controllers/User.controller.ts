@@ -26,7 +26,6 @@ export default class UserController {
     const loginData = req.body;
 
     const userData = await this.service.userLogin(loginData);
-    console.log(userData);
     
     if (!userData.loginStatus) {
       return res.status(statusCodes.UNAUTHORIZED).json(

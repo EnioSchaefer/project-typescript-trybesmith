@@ -10,4 +10,13 @@ export default class OrderController {
 
     return res.status(statusCodes.OK).json(orders);
   };
+
+  public insertOrders = async (req: Request, res: Response) => {
+    const { userData: { payload }, productsIds } = req.body; 
+    const { id: userId } = payload;
+    
+    const result = await this.service.insertOrders(productsIds, userId);
+    
+    return res.status(statusCodes.CREATED).json(result);
+  };
 }

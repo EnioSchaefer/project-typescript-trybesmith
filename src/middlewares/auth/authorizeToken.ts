@@ -15,9 +15,10 @@ export default function authorizeToken(
   if (!authorization) return res.status(401).json({ message: 'Token not found' });
 
   try {
-    jwt.verify(authorization, secret);
+    const userData = jwt.verify(authorization, secret);
+    req.body.userData = userData;
   } catch (err) {
-    return res.status(401).json({ message: 'Expired or invalid token' });
+    return res.status(401).json({ message: 'Invalid token' });
   }
 
   return next();
