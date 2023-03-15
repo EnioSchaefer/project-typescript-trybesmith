@@ -1,8 +1,13 @@
-interface IUser {
+export interface IUser {
+  id?: number;
   username: string;
   vocation: string;
   level: number;
   password: string;
+  loginStatus? : boolean;
 }
 
-export default IUser;
+export interface IUserLogin {
+  username: string;
+  password: string;
+}

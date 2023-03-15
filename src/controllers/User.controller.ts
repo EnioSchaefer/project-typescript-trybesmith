@@ -18,8 +18,27 @@ export default class UserController {
     const newObject = { ...userWithoutPassword, ...id };
     
     const token = jwt.sign({ payload: newObject }, secret, { algorithm: 'HS256', expiresIn: '7d' });
-    console.log(token);
     
     return res.status(statusCodes.CREATED).json({ token });
+  };
+
+  public userLogin = async (req: Request, res: Response) => {
+    const loginData = req.body;
+
+    const userData = await this.service.userLogin(loginData);
+    console.log(userData);
+    
+    if (!userData.loginStatus) {
+      return res.status(statusCodes.UNAUTHORIZED).json(
+        { message: 'Username or password invalid' },
+      );
+    }
+
+    const { id, username } = userData;
+    const tokenData = { id, username };
+
+    const token = jwt.sign({ payload: tokenData }, secret, { algorithm: 'HS256', expiresIn: '7d' });
+
+    return res.status(statusCodes.OK).json({ token });
   };
 }
